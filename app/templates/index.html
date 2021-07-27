@@ -6,18 +6,17 @@
 </head>
 <body>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="chart" id="bargraph">
+        <div class="col">
+            <div id="bargraph">
                 <script>
                     var graphs = {{plot | safe}};
                     Plotly.plot('bargraph',graphs,{});
                 </script>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="chart" id="bargraph2">
+        <div class="col">
+            <div id="bargraph2">
                 <script>
                     var graphs = {{plot2 | safe}};
                     Plotly.plot('bargraph2',graphs,{});
@@ -25,6 +24,5 @@
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
