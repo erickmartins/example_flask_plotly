@@ -3,11 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>My First Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 </head>
 <body>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <div class="row">
-        <div class="col">
+        <div class="col-sm">
             <div id="bargraph">
                 <script>
                     var graphs = {{plot | safe}};
@@ -15,7 +17,7 @@
                 </script>
             </div>
         </div>
-        <div class="col">
+        <div class="col-sm">
             <div id="bargraph2">
                 <script>
                     var graphs = {{plot2 | safe}};
