@@ -24,5 +24,7 @@ def create_plot():
 @app.route('/')
 def index():
     bar = create_plot()
-    return render_template('index.html', plot=bar)
+    bar2 = create_plot()
+    bar3 = create_plot()
+    return render_template('index.html', plot=bar, plot2=bar2, plot3=bar3)
 
