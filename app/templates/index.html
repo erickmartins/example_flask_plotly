@@ -6,37 +6,43 @@
 </head>
 <body>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
-            <div class="chart" id="bargraph">
-                <script>
-                    var graphs = {{plot | safe}};
-                    Plotly.plot('bargraph',graphs,{});
-                </script>
+        <div class="col">
+        </div>
+            <div class="col-6">
+                <!-- Placeholder for map-->
+                <div class="chart" id="bargraph">
+                </div>
             </div>
+        <div class="col">
+        </div>
+    </div>
+        <div class="row">
+        <!-- Placeholder for the global-cases plot-->
+            <div class="chart" id="bargraph2">
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <!-- Placeholder for global-time series -->
+            <div class="chart" id="bargraph3"></div>
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="chart2" id="bargraph2">
-                <script>
-                    var graphs = {{plot2 | safe}};
-                    Plotly.plot('bargraph2',graphs,{});
-                </script>
-            </div>
-        </div>
-        <div class="col">
-            <div class="chart3" id="bargraph3">
-                <script>
-                    var graphs = {{plot3 | safe}};
-                    Plotly.plot('bargraph3',graphs,{});
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
+
+<script>
+    var graph1 = {{plot | safe}};
+    Plotly.plot('bargraph',graph1,{});
+</script>
+<script>
+    var graph2 = {{plot2 | safe}};
+    Plotly.plot('bargraph2',graph2,{});
+</script>
+<script>
+    var graph3 = {{plot3 | safe}};
+    Plotly.plot('bargraph3',graph3,{});
+</script>
+
 </body>
 </html>
