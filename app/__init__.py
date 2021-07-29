@@ -3,8 +3,8 @@ import pandas as pd
 import json
 import plotly
 from plotly.subplots import make_subplots
-import plotly.graph_objs as go
 import numpy as np
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -14,16 +14,57 @@ def get_data(n):
     df = pd.DataFrame({'x': x, 'y': y}) # creating a sample dataframe
     return df
 
+def get_dataframe(filename):
+    with open(filename, 'r') as file:
+        df = pd.read_csv(file)
+        print(df)
+        return df
+
+
 def create_plot():
     N = 40
-    df1 = get_data(N)
-    df2 = get_data(N)
-    df3 = get_data(N)
-    fig = make_subplots(rows=2, cols=2,specs=[[{}, {}],[{'colspan': 2}, None]])    
-    fig.add_bar(x=df1['x'],y=df1['y'], row=1, col=1)
-    fig.add_bar(x=df2['x'],y=df2['y'], row=1, col=2)
-    fig.add_bar(x=df3['x'],y=df3['y'], row=2, col=1)
-    fig.update_layout(height=800)
+    df_time = get_dataframe(Path(__file__).parent.parent / 'test_data' / 'timings.csv')
+    df_status = get_dataframe(Path(__file__).parent.parent / 'test_data' / 'status.csv')
+    df_sessions = get_dataframe(Path(__file__).parent.parent / 'test_data' / 'sessions.csv')
+    fig = make_subplots(rows=3, cols=2,
+                        specs=[[{'colspan': 2}, None],[{}, {}],[{}, {}]], 
+                        subplot_titles=("OMERO status and Blitz API response time", 
+                                        "Sessions per day", "Unique users per day", 
+                                        "Web response time", "JSON API response time"),
+                        horizontal_spacing = 0.05, vertical_spacing=0.05,
+                        )  
+    status_dic={'green':"All systems operational",
+                'orange':"At least one API/service unresponsive",
+                'red':"All systems unresponsive"}  
+    fig.add_bar(x=df_time['timestamp'],y=df_time['blitz_api'],
+                marker_color=df_status['color'], row=1, col=1,
+                text=[status_dic[i] for i in df_status['color']],
+                hovertemplate='Time: %{x}<br>' + 
+                                'Blitz API response time: %{y}<br>'+
+                                'Status: %{text}'+
+                                '<extra></extra>'
+                )
+    fig.add_bar(x=df_sessions['timestamp'],y=df_sessions['sessions'],
+                row=2, col=1,
+                hovertemplate='Time: %{x}<br>' + 
+                                'Total sessions: %{y}<br>'+
+                                '<extra></extra>')
+    fig.add_bar(x=df_sessions['timestamp'],y=df_sessions['users'],
+                row=2, col=2,
+                hovertemplate='Time: %{x}<br>' + 
+                                'Unique users: %{y}<br>'+
+                                '<extra></extra>')
+    fig.add_bar(x=df_time['timestamp'],y=df_time['webpage'],
+                row=3, col=1,
+                hovertemplate='Time: %{x}<br>' + 
+                                'Webpage response time: %{y}<br>'+
+                                '<extra></extra>')
+    fig.add_bar(x=df_time['timestamp'],y=df_time['json_api'],
+                row=3, col=2,
+                hovertemplate='Time: %{x}<br>' + 
+                                'JSON API response time: %{y}<br>'+
+                                '<extra></extra>')
+    fig.update_layout(height=1200, showlegend=False)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
