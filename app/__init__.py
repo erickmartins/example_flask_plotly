@@ -31,7 +31,7 @@ def create_plot():
                         subplot_titles=("OMERO status and Blitz API response time", 
                                         "Sessions per day", "Unique users per day", 
                                         "Web response time", "JSON API response time"),
-                        horizontal_spacing = 0.05, vertical_spacing=0.05,
+                        horizontal_spacing = 0.03, vertical_spacing=0.1,
                         )  
     status_dic={'green':"All systems operational",
                 'orange':"At least one API/service unresponsive",
@@ -40,7 +40,7 @@ def create_plot():
                 marker_color=df_status['color'], row=1, col=1,
                 text=[status_dic[i] for i in df_status['color']],
                 hovertemplate='Time: %{x}<br>' + 
-                                'Blitz API response time: %{y}<br>'+
+                                'Blitz API response time: %{y}ms<br>'+
                                 'Status: %{text}'+
                                 '<extra></extra>'
                 )
@@ -57,12 +57,12 @@ def create_plot():
     fig.add_bar(x=df_time['timestamp'],y=df_time['webpage'],
                 row=3, col=1,
                 hovertemplate='Time: %{x}<br>' + 
-                                'Webpage response time: %{y}<br>'+
+                                'Webpage response time: %{y}ms<br>'+
                                 '<extra></extra>')
     fig.add_bar(x=df_time['timestamp'],y=df_time['json_api'],
                 row=3, col=2,
                 hovertemplate='Time: %{x}<br>' + 
-                                'JSON API response time: %{y}<br>'+
+                                'JSON API response time: %{y}ms<br>'+
                                 '<extra></extra>')
     fig.update_layout(height=1200, showlegend=False)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
