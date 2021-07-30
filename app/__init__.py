@@ -24,8 +24,7 @@ def create_plot(folder):
     df_sessions = get_dataframe(Path(folder) / 'sessions.csv')
     fig = make_subplots(rows=3, cols=2,
                         specs=[[{'colspan': 2}, None], [{}, {}], [{}, {}]],
-                        subplot_titles=("OMERO status and Blitz API \
-                                        response time",
+                        subplot_titles=("OMERO status and Blitz API response time",
                                         "Sessions per day",
                                         "Unique users per day",
                                         "Web response time",
