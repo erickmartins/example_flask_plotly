@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """WSGI config adding site packages and path."""
 import sys
 import site
