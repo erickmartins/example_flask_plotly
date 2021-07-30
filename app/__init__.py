@@ -17,14 +17,11 @@ def get_dataframe(filename):
         return df
 
 
-def create_plot():
+def create_plot(folder):
     """Generate the multiplot to be displayed."""
-    df_time = get_dataframe(Path(__file__).parent.parent /
-                            'test_data' / 'timings.csv')
-    df_status = get_dataframe(Path(__file__).parent.parent /
-                              'test_data' / 'status.csv')
-    df_sessions = get_dataframe(Path(__file__).parent.parent /
-                                'test_data' / 'sessions.csv')
+    df_time = get_dataframe(Path(folder) / 'timings.csv')
+    df_status = get_dataframe(Path(folder) / 'status.csv')
+    df_sessions = get_dataframe(Path(folder) / 'sessions.csv')
     fig = make_subplots(rows=3, cols=2,
                         specs=[[{'colspan': 2}, None], [{}, {}], [{}, {}]],
                         subplot_titles=("OMERO status and Blitz API \
@@ -74,5 +71,6 @@ def create_plot():
 @app.route('/')
 def index():
     """Render the HTML template with a plot."""
-    bar = create_plot()
+    folder = "/tmp/data"
+    bar = create_plot(folder)
     return render_template('index.html', plot=bar)
